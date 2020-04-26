@@ -1,0 +1,3 @@
+[submodule "knockoffnets"]
+	path = knockoffnets
+	url = git@github.com:tribhuvanesh/knockoffnets.git
