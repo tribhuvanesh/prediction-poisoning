@@ -1,4 +1,4 @@
-# Prediction Poisoning: Towards Defenses Against DNN Model Stealing Attacks, ICLR '20'
+# Prediction Poisoning: Towards Defenses Against DNN Model Stealing Attacks, ICLR '20
 
 **Tribhuvanesh Orekondy<sup>1</sup>, Bernt Schiele<sup>1</sup>, Mario Fritz<sup>2</sup>**   
 
@@ -16,6 +16,8 @@ We find our defense effective across a wide range of challenging datasets and DN
 Our defense is the first that can withstand highly accurate model stealing attacks for tens of thousands of queries, amplifying the attacker's error rate up to a factor of 85× with minimal impact on the utility for benign users.
 
 **tl; dr:** We propose the first approach that can resist DNN model stealing attacks
+
+**Project webpage: [url](https://resources.mpi-inf.mpg.de/d2/orekondy/predpoison/)**
 
 ## Installation
 
@@ -67,7 +69,7 @@ Notes:
 
 ### Surrogate Models
 
-Our approach MAD relies on computing jacobians (from the FC-layer) using surrogate models. 
+Our approach MAD involves an optimization objective with access to jacobians (from the FC-layer) of surrogate models. 
 The surrogate models used are essentially randomly-initialized models exhibiting chance-level performance.
 They can be created using the command:
 ```bash
@@ -101,7 +103,7 @@ The instructions below will execute experiments with the following setting:
 
 Most of these parameters can be changed by simply substituting the variables with the one you want.
 
-#### 1. Setting up experiment variables
+#### Step 1: Setting up experiment variables
 
 The experiment parameters are configured by setting shell variables (copy-paste the block below into command-line). 
 
@@ -138,7 +140,7 @@ batch_size=1
 
 It is vital to retain these variables when running the subsequent commands when executes the model stealing attack under the configured defense.
 
-#### 2. Simulate Attacker Interactions
+#### Step 2: Simulate Attacker Interactions
 
 The command below constructs the attacker's transfer set i.e., images and their corresponding pseudo-labels (perturbed posteriors) obtained by querying the defended blackbox.
 The defense is configured by `strat` and `defense_args` variables.
@@ -155,7 +157,7 @@ $ python defenses/adversary/transfer.py random ${vic_dir} ${strat} ${defense_arg
 The command produces a `${out_dir}/queries.pickle` file containing the image-(perturbed) prediction pairs.
 Additionally, the file `${out_dir}/distancetransfer.log.tsv` logs the mean and standard deviations of L1, L2, and KL between the original and perturbed predictions.
 
-#### 3. Train + Evaluate Attacker
+#### Step 3: Train + Evaluate Attacker
 
 After the transfer set (i.e., attacker's training set) is constructed, the command below trains multiple attack models for various choices of sizes of transfer sets (specified by `budgets`).
 During training, the model is simulatenously evaluated during each epoch. 
@@ -170,7 +172,7 @@ python knockoff/adversary/train.py ${out_dir} ${f_v} ${p_v} \
 
 The train and test accuracies of the attack model (against MAD defense@eps) are logged to `${out_dir}/train.<budget>.log.tsv`.
 
-#### 4. Evaluate Blackbox utility
+#### Step 4: Evaluate Blackbox utility
 
 The utility of the defended blackbox is evaluated by computing 
   * the test-set accuracy (i.e., ) with perturbed predictions on the test image set
@@ -185,6 +187,25 @@ python defenses/adversary/eval_bbox.py ${vic_dir} ${strat} ${defense_args} \
 
 The utility metrics will be logged to `${out_dir}/bboxeval.<testsetsize>.log.tsv` (test accuracies) and `${out_dir}/distancetest.log.tsv` (perturbation magnitudes).
 
+## Citation
+
+If you found this work or code useful, please cite us:
+
+```
+@inproceedings{orekondy20prediction,
+    TITLE = {Prediction Poisoning: Towards Defenses Against DNN Model Stealing Attacks},
+    AUTHOR = {Orekondy, Tribhuvanesh and Schiele, Bernt and Fritz, Mario},
+    YEAR = {2020},
+    BOOKTITLE = {ICLR},
+}
+
+@inproceedings{orekondy19knockoff,
+    TITLE = {Knockoff Nets: Stealing Functionality of Black-Box Models},
+    AUTHOR = {Orekondy, Tribhuvanesh and Schiele, Bernt and Fritz, Mario},
+    YEAR = {2019},
+    BOOKTITLE = {CVPR},
+}
+```
 
 ## Contact
 
