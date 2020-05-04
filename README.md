@@ -105,7 +105,9 @@ Most of these parameters can be changed by simply substituting the variables wit
 
 #### Step 1: Setting up experiment variables
 
-The experiment parameters are configured by setting shell variables (copy-paste the block below into command-line). 
+The configuration for experiments is provided primarily via command-line arguments. 
+Since some of these arguments are re-used between experiments (e.g., attack and defense models), it's convenient to assign the configuration in shell variables and just reference them in the command-line arguments (which you will see in the next steps).
+To do this, copy-paste the block below into command-line.
 
 ```bash
 ### If you have multiple GPUs on the machine, use this to select the specific GPU
