@@ -180,12 +180,12 @@ The utility of the defended blackbox is evaluated by computing
   * the test-set accuracy (i.e., ) with perturbed predictions on the test image set
   * perturbation magnitude norms introduced as a result
 
-``bash
+```bash
 python defenses/adversary/eval_bbox.py ${vic_dir} ${strat} ${defense_args} \
     --out_dir ${out_dir} \
     --batch_size ${batch_size} \
     -d ${dev_id}
-``
+```
 
 The utility metrics will be logged to `${out_dir}/bboxeval.<testsetsize>.log.tsv` (test accuracies) and `${out_dir}/distancetest.log.tsv` (perturbation magnitudes).
 
