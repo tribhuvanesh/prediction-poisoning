@@ -283,7 +283,7 @@ class JacobianAdversary:
                     labels_onehot = make_one_hot(labels, Y_i.shape[1])
                     Y_i = labels_onehot
 
-                X_aug.append(X.detach().cpu().clone())
+                X_aug.append((X + delta_i).detach().cpu().clone())
                 Y_aug.append(Y_i.detach().cpu().clone())
 
             if self.blackbox.call_count >= self.budget:
